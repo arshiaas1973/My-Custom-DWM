@@ -8,12 +8,12 @@ For using it you have to just run these codes in terminal :
 Press Y to install git and make
 #### For Debian/Ubuntu
 > sudo apt install git make
-Press Y to install git and make
+######Press Y to install git and make
 #### For Fedora
 > sudo yum install git make
-or
+######or
 > sudo dnf install git make
-Press Y to install git and make
+######Press Y to install git and make
 
 #### After writing those command do this :
 > git clone https://github.com/arshiaas1973/My-Custom-DWM.git

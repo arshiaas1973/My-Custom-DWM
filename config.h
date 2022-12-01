@@ -1,26 +1,42 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
+#define PrintScreenDWM	    0x0000ff61
 
+
+/* commands */
+static const char *cmdprintscreen[]  = { "/usr/bin/scrot", "-d3","/home/scarywwolf/Pictures/screenshots/%Y-%m-%d-%s_$wx$h.jpg", NULL };
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int gappx     = 10;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=18" };
-static const char dmenufont[]       = "monospace:size=18";
-static const char col_gray1[]       = "#222222";
+static const char *fonts[]          = { "monospace:size=13" };
+static const char dmenufont[]       = "monospace:size=13";
+static const char col_gray1[]       = "#042c6b";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static const char col_cyan[]        = "#f00c27";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
 
+static const char *brightnessup[] = {"/usr/bin/xbacklight", "-inc", "5%", NULL};
+static const char *brightnessdown[] = {"/usr/bin/xbacklight", "-dec", "5", NULL};
+
+static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%",     NULL };
+static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%",     NULL };
+static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "0", "toggle",  NULL };
+
+static const char *medplaypausecmd[] = { "playerctl", "play-pause", NULL };
+static const char *mednextcmd[] = { "playerctl", "next", NULL };
+static const char *medprevcmd[] = { "playerctl", "previous", NULL };
+
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", ""};
+static const char *tags[] = { "", "", "", "", "", "💼", "🎧", "🎙️", "🎬", "🎮"};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -29,7 +45,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Firefox",  NULL,       NULL,       1 << 1,       0,           -1 },
 };
 
 /* layout(s) */
@@ -57,8 +73,10 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, topbar ? NULL : "-b", NULL };
+static const char *termcmd[]  = { "kitty", NULL };
+
+#include "selfrestart.c"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -73,7 +91,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -97,7 +115,18 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+    	{ MODKEY|ShiftMask,             XK_r,      self_restart,   {0} },
+//	{ ControlMask|ShiftMask,             XK_c,      quit,           {0} },
+	{ MODKEY|ControlMask|ShiftMask, XK_c,      quit,           {1} }, 
+	{0,       XF86XK_MonBrightnessUp, spawn,    {.v=brightnessup} },
+  	{0,       XF86XK_MonBrightnessDown, spawn, {.v=brightnessdown}  },
+	{ 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
+	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+	{ 0, XF86XK_AudioPlay, spawn, {.v = medplaypausecmd } },
+	{ 0, XF86XK_AudioNext, spawn, {.v = mednextcmd } },
+	{ 0, XF86XK_AudioPrev, spawn, {.v = medprevcmd } },
+	{ 0,    PrintScreenDWM,      spawn,          {.v = cmdprintscreen } }
 };
 
 /* button definitions */
@@ -116,4 +145,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-

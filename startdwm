@@ -1,0 +1,15 @@
+#!/bin/bash
+sudo systemctl enable NetworkManager
+sudo systemctl start NetworkManager
+nmcli d wifi connect Arshia password pa56363620
+setxkbmap -layout us,ir -option grp:lwin_toggle
+pactl unload-module module-bluetooth-discover
+pactl load-module module-bluetooth-discover
+export _JAVA_AWT_WM_NONREPARENTING=1
+wmname "LG3D"
+xfce4-panel &
+blueman-manager &
+picom &
+nitrogen --restore &
+/home/scarywwolf/dwmscript/dwm-status &
+exec /usr/local/bin/dwm

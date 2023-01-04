@@ -24,6 +24,8 @@ Press Y to install git and make
 
 > cd My-Custom-DWM
 
+> make
+
 > make clean install
 
 

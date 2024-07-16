@@ -1,0 +1,5 @@
+#!/bin/bash
+playerctl previous
+NAME=$(playerctl metadata xesam:title)
+ARTIST=$(playerctl metadata xesam:artist)
+notify-send "Previous Music" "Previous music was: '$NAME ~ $ARTIST'"

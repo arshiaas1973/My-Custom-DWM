@@ -1,0 +1,10 @@
+#!/bin/bash
+/usr/bin/pactl set-sink-mute 0 toggle
+STATUS=$(/usr/bin/pactl get-sink-mute 0)
+VOLUME=$(amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }')
+if [[ $STATUS == *"yes"* ]]; then
+     notify-send "Volume Fall" "Volume is now muted"
+else
+     notify-send "Volume Fall" "Volume is now: $VOLUME (unmuted)"
+fi
+

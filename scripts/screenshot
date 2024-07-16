@@ -1,0 +1,5 @@
+#!/bin/bash
+now=$(date '+%d%m%Y%H%M%S.png')
+scrot -b -d 5 "$now" -e 'mv $f ~/Desktop/Screenshot'
+MSG="Screenshot has been saved in: /home/scarywwolf/Desktop/Screenshot/$now"
+notify-send "Screenshot Saved" "$MSG"

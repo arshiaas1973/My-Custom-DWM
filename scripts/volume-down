@@ -1,0 +1,5 @@
+#!/bin/bash
+/usr/bin/pactl set-sink-volume 0 -5%
+VOLUME=$(amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }')
+notify-send "Volume Fall" "Volume is now: $VOLUME"
+

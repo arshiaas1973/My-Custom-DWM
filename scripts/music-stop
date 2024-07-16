@@ -1,0 +1,10 @@
+#!/bin/bash
+STATUS=$(playerctl status)
+NAME=$(playerctl metadata xesam:title)
+ARTIST=$(playerctl metadata xesam:artist)
+if [[ $STATUS == *"Playing"* ]]; then
+	notify-send "Music Stopped" "'$NAME ~ $ARTIST' got stopped"
+else
+	notify-send "Music Stopped" "'$NAME ~ $ARTIST' is playing"
+fi
+playerctl play-pause

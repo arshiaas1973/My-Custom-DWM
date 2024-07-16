@@ -1,0 +1,6 @@
+#!/bin/bash
+/usr/bin/xbacklight -dec 5%
+blvalue=$(xbacklight)
+newblvalue=$(echo $blvalue | awk '{print int($1+0.5)}')
+string="$newblvalue""%"
+notify-send "Brightness DOWN" "Brightness is now $string"

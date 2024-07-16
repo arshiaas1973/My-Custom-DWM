@@ -1,0 +1,6 @@
+#!/bin/bash
+playerctl next
+sleep 1s
+NAME=$(playerctl metadata xesam:title)
+ARTIST=$(playerctl metadata xesam:artist)
+notify-send "Next Music" "'$NAME ~ $ARTIST' is the next music"

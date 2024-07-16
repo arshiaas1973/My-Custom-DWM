@@ -4,14 +4,14 @@
 
 
 /* commands */
-static const char *cmdprintscreen[]  = { "/usr/bin/scrot", "-d3","/home/scarywwolf/Pictures/screenshots/%Y-%m-%d-%s_$wx$h.jpg", NULL };
+static const char *cmdprintscreen[]  = { "screenshot", NULL };
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int gappx     = 10;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=13" };
+static const char *fonts[]          = { "monospace:size=13", "Noto Color Emoji:size=13:style=Bold" , "B Nazanin:size=13"};
 static const char dmenufont[]       = "monospace:size=13";
 static const char col_gray1[]       = "#042c6b";
 static const char col_gray2[]       = "#444444";
@@ -24,19 +24,19 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
 
-static const char *brightnessup[] = {"/usr/bin/xbacklight", "-inc", "5%", NULL};
-static const char *brightnessdown[] = {"/usr/bin/xbacklight", "-dec", "5", NULL};
+static const char *brightnessup[] = {"brightness-up", NULL};
+static const char *brightnessdown[] = {"brightness-down", NULL};
 
-static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%",     NULL };
-static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%",     NULL };
-static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "0", "toggle",  NULL };
+static const char *upvol[]   = { "volume-up",     NULL };
+static const char *downvol[] = { "volume-down",     NULL };
+static const char *mutevol[] = { "volume-mute",  NULL };
 
-static const char *medplaypausecmd[] = { "playerctl", "play-pause", NULL };
-static const char *mednextcmd[] = { "playerctl", "next", NULL };
-static const char *medprevcmd[] = { "playerctl", "previous", NULL };
+static const char *medplaypausecmd[] = { "music-stop", NULL };
+static const char *mednextcmd[] = { "music-next", NULL };
+static const char *medprevcmd[] = { "music-previous", NULL };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "💼", "🎧", "🎙️", "🎬", "🎮"};
+static const char *tags[] = { "🦊", "", "", "", "💻", "💼", "🎧", "🎙️", "🎬", "🎮"};
 
 static const Rule rules[] = {
 	/* xprop(1):
